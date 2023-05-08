@@ -1,54 +1,62 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { showModal, hideModal } from '../../features/modals/modalToggleSlice';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import SignInAuth from "./SignInAuth";
+import SignUpAuth from "./SignUpAuth";
+import ForgotPassword from "./ForgotPassword";
+import { showModal, hideModal } from "../../features/modals/modalToggleSlice";
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    Button,
-    useDisclosure
-  } from '@chakra-ui/react'
-
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  Link,
+} from "@chakra-ui/react";
 
 export default function SignInModal() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const modalToggle = useSelector(state => state.modalToggle.value)
-    const dispatch = useDispatch()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modalToggle = useSelector((state) => state.modalToggle.value);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-      if (modalToggle === true) {
-        onOpen()
-      }
-      else {
-        onClose()
-      }
-    })
+  const [modalState, setModalState] = useState("signIn");
 
-    return (
-      <>
-        <Button onClick={() => dispatch(showModal())}>Open Modal</Button>
-  
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Log in</ModalHeader>
-            <ModalCloseButton onClick={() => dispatch(hideModal())}/>
-            <ModalBody>
-            </ModalBody>
-  
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={() => dispatch(hideModal())}>
-                Close
-              </Button>
-              <Button variant='ghost'>Secondary Action</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    )
+  useEffect(() => {
+    if (modalToggle === true) {
+      onOpen();
+    } else {
+      onClose();
+    }
+  });
+
+  return (
+    <>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent bg="gray.200">
+          <ModalHeader></ModalHeader>
+          <ModalCloseButton onClick={() => {
+            dispatch(hideModal())
+            setModalState('signIn')
+            }} />
+          <ModalBody>
+            {modalState === "signIn" ? 
+            <SignInAuth setModalState={setModalState}></SignInAuth> : 
+            modalState === 'signUp' ? 
+            <SignUpAuth setModalState={setModalState}></SignUpAuth> : 
+            modalState === 'forgotPassword' ? 
+            <ForgotPassword></ForgotPassword> :
+            <div></div>
+            }
+          </ModalBody>
+          <ModalFooter>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }
