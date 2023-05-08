@@ -1,8 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import { theme } from "./chakra/theme";
-import Nav from "./components/navigation/Nav";
-import Main from "./components/Main";
+import { theme } from "../chakra/theme";
+import Nav from "../components/navigation/Nav";
+import Main from "../components/Main";
 
 function App() {
   return (
