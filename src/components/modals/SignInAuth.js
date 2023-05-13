@@ -10,9 +10,32 @@ import {  Button,
     Stack,
     Heading,
     useColorModeValue,
+    Text
 } from "@chakra-ui/react";
 
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { auth } from "../../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { hideModal } from "../../features/modals/modalToggleSlice";
+
 export default function SignInAuth({setModalState}) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+  const [errMsg, setErrMsg] = useState('')
+  const dispatch = useDispatch();
+  
+  const signIn = async () => {
+    try {
+    await signInWithEmailAndPassword(auth, email, password)
+    setEmail('')
+    setPassword('')
+      dispatch(hideModal())
+    } catch (err) {
+      setErrMsg(err.message.slice(9));
+    }
+  };
+
   return (
     <Flex
       align={"center"}
@@ -32,11 +55,11 @@ export default function SignInAuth({setModalState}) {
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={e => setEmail(e.target.value)} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={e => setPassword(e.target.value)}/>
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -48,6 +71,7 @@ export default function SignInAuth({setModalState}) {
                 <Link color={"blue.400"} onClick={() => setModalState('forgotPassword')}>Forgot password?</Link>
               </Stack>
               <Button
+              onClick={signIn}
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{
@@ -56,6 +80,7 @@ export default function SignInAuth({setModalState}) {
               >
                 Sign in
               </Button>
+              <Text color='red'>{errMsg}</Text>
               <p>
               No account? <Link color="blue.400" onClick={() => setModalState('signUp')}>register here</Link>
             </p>
