@@ -18,9 +18,9 @@ import {
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
   import { createUserWithEmailAndPassword } from 'firebase/auth';
-  import { auth } from '../../config/firebase';
+  import { auth } from '../../../config/firebase';
 import { async } from '@firebase/util';
-import { hideModal } from '../../features/modals/modalToggleSlice';
+import { hideModal } from '../../../features/modals/modalToggleSlice';
 
 import { useDispatch } from "react-redux";
 

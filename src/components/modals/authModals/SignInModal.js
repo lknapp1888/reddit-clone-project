@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import SignInAuth from "./SignInAuth";
 import SignUpAuth from "./SignUpAuth";
 import ForgotPassword from "./ForgotPassword";
-import { showModal, hideModal } from "../../features/modals/modalToggleSlice";
+import { showModal, hideModal } from "../../../features/modals/modalToggleSlice";
 import {
   Modal,
   ModalOverlay,

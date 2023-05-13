@@ -15,9 +15,9 @@ import {  Button,
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { auth } from "../../config/firebase";
+import { auth } from "../../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { hideModal } from "../../features/modals/modalToggleSlice";
+import { hideModal } from "../../../features/modals/modalToggleSlice";
 
 export default function SignInAuth({setModalState}) {
   const [email, setEmail] = useState('');

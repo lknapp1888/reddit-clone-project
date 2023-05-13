@@ -14,7 +14,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 
 import { useState } from "react";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
-import { auth } from "../../config/firebase";
+import { auth } from "../../../config/firebase";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
