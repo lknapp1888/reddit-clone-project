@@ -33,7 +33,7 @@ export default function Main() {
   if (user) {
     return (
       <div>
-        <p>Current User: {user.email}</p>
+        <p>Current User: {user.email.split('@')[0]}</p>
         <button onClick={logOut}>Log out</button>
       </div>
     );
