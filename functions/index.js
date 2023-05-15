@@ -19,6 +19,10 @@ exports.createUserDoc = functions.auth.user().onCreate(async (user) => {
     db.collection('users').doc(user.uid).set(newUser)
 })
 
+// add on delete function
+
+// add on update function
+
 
 
 

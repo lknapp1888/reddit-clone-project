@@ -3,7 +3,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { hideCommModal } from "../../../features/modals/createCommModalToggleSlice";
 import { db, auth } from "../../../config/firebase";
-import { setDoc, collection, doc, getDoc, serverTimestamp } from "firebase/firestore"; 
+import { setDoc, collection, doc, getDoc, serverTimestamp, runTransaction } from "firebase/firestore"; 
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import {
@@ -60,24 +60,40 @@ export default function CreateCommunityModal() {
     setError('')
 
     const docRef = doc(db, "communities", community);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      setError(`'${community}' already exists. Please try a different name`)
-      return
-    } else {
-      try {
-        await setDoc(docRef, {
-          founderId: user?.uid,
-          foundingDate: serverTimestamp(),
-          type: communityType,
-          members: 1,
-        });
-        setCommunity('')
-      } catch (e) {
-        setError(`"Error adding document: ", ${e}`);
+
+    await runTransaction(db, async (transaction) => {
+      const docSnap = await transaction.get(docRef);
+      if (docSnap.exists()) {
+        setError(`'${community}' already exists. Please try a different name`)
+        return
+      } else {
+        try {
+          //community creation
+          transaction.set(docRef, {
+            founderId: user?.uid,
+            foundingDate: serverTimestamp(),
+            type: communityType,
+            members: 1,
+          });
+
+          // community snippet creation
+          transaction.set(
+            doc(db, `users/${user?.uid}/communitySnippets`, community),
+            {
+              communityId: community,
+              isModerator: true,
+            }
+          )
+
+          setCommunity('')
+        } catch (e) {
+          setError(`"Error adding document: ", ${e}`);
+        }
       }
-    }
+    })
+
+    
+
   };
 
   useEffect(() => {
