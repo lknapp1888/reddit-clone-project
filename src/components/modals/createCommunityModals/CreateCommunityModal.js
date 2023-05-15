@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { hideCommModal } from "../../../features/modals/createCommModalToggleSlice";
-import { db } from "../../../config/firebase";
+import { db, auth } from "../../../config/firebase";
+import { setDoc, collection, doc, getDoc, serverTimestamp } from "firebase/firestore"; 
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import {
   Modal,
@@ -34,6 +36,7 @@ export default function CreateCommunityModal() {
   const [community, setCommunity] = useState("");
   const [communityType, setCommunityType] = useState("public");
   const [error, setError] = useState("");
+  const [user] = useAuthState(auth);
 
   //accessing the global state boolean value for whether the create community should be open
   const commModalToggle = useSelector(
@@ -55,6 +58,26 @@ export default function CreateCommunityModal() {
       return
     }
     setError('')
+
+    const docRef = doc(db, "communities", community);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      setError(`'${community}' already exists. Please try a different name`)
+      return
+    } else {
+      try {
+        await setDoc(docRef, {
+          founderId: user?.uid,
+          foundingDate: serverTimestamp(),
+          type: communityType,
+          members: 1,
+        });
+        setCommunity('')
+      } catch (e) {
+        setError(`"Error adding document: ", ${e}`);
+      }
+    }
   };
 
   useEffect(() => {
@@ -98,6 +121,7 @@ export default function CreateCommunityModal() {
                     minLength={3}
                     maxLength={21}
                     onChange={(e) => setCommunity(e.target.value)}
+                    value={community}
                   />
                   <Text>{21 - community.length} characters remaining</Text>
                   <Text color='red'>{error}</Text>
