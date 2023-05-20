@@ -6,6 +6,8 @@ import { doc, runTransaction } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import CommunityHeader from './CommunityHeader';
 import CommunityErrorPage from './CommunityErrorPage';
+import CommunityLeftSide from './leftSide/CommunityLeftSide';
+import CommunityRightSide from './rightSide/CommunityRightSide';
 
 export default function CommunityPage() {
     const id = useParams().id;
@@ -39,7 +41,13 @@ export default function CommunityPage() {
   }  
   if (communityExist) {
   return (
+    <Flex width='100%' direction='column'>
     <CommunityHeader id={id}></CommunityHeader>
+    <Flex width='100%' justify='center' padding='20px 24px' gap='10'>
+      <CommunityLeftSide width='900px'></CommunityLeftSide>
+      <CommunityRightSide width='320px'></CommunityRightSide>
+    </Flex>
+    </ Flex>
   )
   }
   else {
