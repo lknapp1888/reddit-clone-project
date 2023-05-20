@@ -9,13 +9,13 @@ import CommunityErrorPage from './CommunityErrorPage';
 import CommunityLeftSide from './leftSide/CommunityLeftSide';
 import CommunityRightSide from './rightSide/CommunityRightSide';
 
-export default function CommunityPage() {
-    const id = useParams().id;
+export default function CommunityPage({submitRequest}) {
+    const community = useParams().community;
     const [communityExist, setCommunityExist] = useState(false)
     const [loading, setLoading ] = useState(true)
 
     const loadCommunity = async () => {
-      const docRef = doc(db, "communities", id);
+      const docRef = doc(db, "communities", community);
       
       await runTransaction(db, async (transaction) => {
         const docSnap = await transaction.get(docRef);
@@ -42,9 +42,9 @@ export default function CommunityPage() {
   if (communityExist) {
   return (
     <Flex width='100%' direction='column'>
-    <CommunityHeader id={id}></CommunityHeader>
+    <CommunityHeader community={community}></CommunityHeader>
     <Flex width='100%' justify='center' padding='20px 24px' gap='10'>
-      <CommunityLeftSide width='900px'></CommunityLeftSide>
+      <CommunityLeftSide submitRequest={submitRequest} width='900px' community={community}></CommunityLeftSide>
       <CommunityRightSide width='320px'></CommunityRightSide>
     </Flex>
     </ Flex>

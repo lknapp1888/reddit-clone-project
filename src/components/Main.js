@@ -9,6 +9,7 @@ import CreateCommunityModal from './modals/createCommunityModals/CreateCommunity
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TestElement from './community/CommunityPage';
 import CommunityPage from './community/CommunityPage';
+
 export default function Main() {
 
   const [user, loading, error] = useAuthState(auth);
@@ -19,7 +20,8 @@ export default function Main() {
         <SignInModal></SignInModal>
         <CreateCommunityModal></CreateCommunityModal>
       <Routes>
-        <Route path="/c/:id" element={<CommunityPage/>}></Route>
+        <Route path="/c/:community" element={<CommunityPage/>}></Route>
+        <Route path="/c/:community/:submit" element={<CommunityPage submitRequest={true}/>}></Route>
       </Routes>
       </ Flex>
     );
