@@ -14,7 +14,7 @@ export default function CommunityLeftSide({ width, submitRequest, community }) {
   return (
     <Flex border="solid blue 1px" width={width} direction='column' gap='10px'>
       <SortHeader></SortHeader>
-      {user ? <SubmitPostHeader></SubmitPostHeader> : <></>}
+      {user ? <SubmitPostHeader community={community}></SubmitPostHeader> : <></>}
     </Flex>
   );
   }
