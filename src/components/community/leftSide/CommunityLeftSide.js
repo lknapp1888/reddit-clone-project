@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../config/firebase";
 import SubmitPostHeader from "./SubmitPostHeader";
 import PostSubmit from "../PostSubmit";
+import CommunityPosts from "./CommunityPosts";
 
 export default function CommunityLeftSide({ width, submitRequest, community }) {
   const [user, loading, error] = useAuthState(auth);
@@ -15,6 +16,7 @@ export default function CommunityLeftSide({ width, submitRequest, community }) {
     <Flex border="solid blue 1px" width={width} direction='column' gap='10px'>
       <SortHeader></SortHeader>
       {user ? <SubmitPostHeader community={community}></SubmitPostHeader> : <></>}
+      <CommunityPosts community={community}></CommunityPosts>
     </Flex>
   );
   }
