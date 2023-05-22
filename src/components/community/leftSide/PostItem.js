@@ -2,6 +2,8 @@ import React from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
 import { CircleIcon } from "../../../chakra/circleIcon";
+import { formatDistanceToNowStrict } from 'date-fns';
+
 
 export default function PostItem({postData}) {
   return (
@@ -17,7 +19,7 @@ export default function PostItem({postData}) {
         <Flex gap='3' align='center'>
           <CircleIcon boxSize={10} color="brand.100"></CircleIcon>
           <Text fontSize='2xl'>c/{postData.communityId}</Text>
-          <Text>Posted by u/{postData.authorDisplayName} x hours ago</Text>
+          <Text>Posted by u/{postData.authorDisplayName} {formatDistanceToNowStrict(postData.postTime.toDate())} ago</Text>
         </Flex>
         <Flex marginLeft='3' marginTop='1'>
           <Text fontSize='2xl'>{postData.title}</Text>
