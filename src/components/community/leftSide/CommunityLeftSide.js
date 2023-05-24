@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import SortHeader from "./SortHeader";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -9,14 +9,15 @@ import CommunityPosts from "./CommunityPosts";
 
 export default function CommunityLeftSide({ width, submitRequest, community }) {
   const [user, loading, error] = useAuthState(auth);
+  const [sortSetting, setSortSetting] = useState('top')
 
 
   if (!submitRequest) {
   return (
     <Flex width={width} direction='column' gap='10px'>
-      <SortHeader></SortHeader>
+      <SortHeader setSortSetting={setSortSetting}></SortHeader>
       {user ? <SubmitPostHeader community={community}></SubmitPostHeader> : <></>}
-      <CommunityPosts community={community}></CommunityPosts>
+      <CommunityPosts community={community} sortSetting={sortSetting}></CommunityPosts>
     </Flex>
   );
   }

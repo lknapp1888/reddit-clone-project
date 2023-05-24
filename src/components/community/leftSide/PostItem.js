@@ -15,6 +15,7 @@ export default function PostItem({postData}) {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
+    // get the user voted status for the post and change upvote/downvote button color as necessary
     const setVoteBtnColor = async () => {
       const userVotedRef = doc(db, `users/${user?.uid}/votedPosts`, postData.id)
       const docSnap = await getDoc(userVotedRef);

@@ -1,14 +1,17 @@
 import React from 'react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Flex } from "@chakra-ui/react";
 
-export default function SortHeader() {
+export default function SortHeader({setSortSetting}) {
+
+  const updateSortSetting = (e) => {
+    setSortSetting(e.target.value)
+  }
   return (
     <Flex width='100%' bg='white' padding='10px'>
         <Tabs variant='soft-rounded' colorScheme='red'>
         <TabList>
-          <Tab>Hot</Tab>
-          <Tab>New</Tab>
-          <Tab>Top</Tab>
+          <Tab onClick={updateSortSetting} value='top'>Top</Tab>
+          <Tab onClick={updateSortSetting} value='new'>New</Tab>
         </TabList>
           </Tabs>
     </Flex>
