@@ -9,6 +9,7 @@ import CreateCommunityModal from './modals/createCommunityModals/CreateCommunity
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TestElement from './community/CommunityPage';
 import CommunityPage from './community/CommunityPage';
+import PostPage from './posts/PostPage';
 
 export default function Main() {
 
@@ -21,7 +22,8 @@ export default function Main() {
         <CreateCommunityModal></CreateCommunityModal>
       <Routes>
         <Route path="/c/:community" element={<CommunityPage/>}></Route>
-        <Route path="/c/:community/:submit" element={<CommunityPage submitRequest={true}/>}></Route>
+        <Route path="/c/:community/submit" element={<CommunityPage submitRequest={true}/>}></Route>
+        <Route path="/c/:community/post/:postId" element={<PostPage/>}></Route>
       </Routes>
       </ Flex>
     );

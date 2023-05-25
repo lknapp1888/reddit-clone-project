@@ -24,13 +24,14 @@ export default function CommunityPosts({community, sortSetting}) {
     }
   }
 
+
   useEffect(() => {
     getPosts(sortSetting)
-  })
+  }, [])
 
   return (
     <Flex direction='column' gap='3'>
-      {posts.map(p => (<PostItem postData={p} sortSetting={sortSetting}></PostItem>))}
+      {posts.map(p => (<PostItem postData={p}></PostItem>))}
     </Flex>
   )
 }

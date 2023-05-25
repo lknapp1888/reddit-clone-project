@@ -4,115 +4,53 @@ import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
 import { CircleIcon } from "../../../chakra/circleIcon";
 import { formatDistanceToNowStrict } from 'date-fns';
 import { doc, updateDoc, deleteDoc, increment, runTransaction, getDoc } from "firebase/firestore"; 
-import { db, auth } from '../../../config/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { db } from '../../../config/firebase';
+
 
 
 export default function PostItem({postData}) {
   const [voteCount, setVoteCount ] = useState(postData.voteStatus);
+
+  const [upvoteStatus, setUpvoteStatus ] = useState(false)
+  const [downvoteStatus, setDownvoteStatus ] = useState(false)
+
   const [upvoteColor, setUpvoteColor ] = useState('')
   const [downvoteColor, setDownvoteColor ] = useState('')
-  const [user] = useAuthState(auth);
-
-  useEffect(() => {
-    // get the user voted status for the post and change upvote/downvote button color as necessary
-    const setVoteBtnColor = async () => {
-      const userVotedRef = doc(db, `users/${user?.uid}/votedPosts`, postData.id)
-      const docSnap = await getDoc(userVotedRef);
-      if (docSnap.exists()) {
-        if (docSnap.data().voteStatus === 'upvoted') {
-          setUpvoteColor('green')
-        }
-        else {
-          setDownvoteColor('red')
-        }
-      }
-    }
-    setVoteBtnColor()
-  }, [])
 
   const upvotePost = async () => {
-    const postDocRef = doc(db, 'posts', postData.id);
-    const userVotedRef = doc(db, `users/${user?.uid}/votedPosts`, postData.id)
+    if (upvoteStatus) {
+    setVoteCount(voteCount - 1)
+    setUpvoteStatus(false)
+    setDownvoteStatus(false) 
+    setUpvoteColor('')
+    setDownvoteColor('')
+    return}
 
-    await runTransaction(db, async (transaction) => {
-      const docSnap = await transaction.get(userVotedRef);
-      if (docSnap.exists()) {
-         if (docSnap.data().voteStatus === 'upvoted') {
-          await updateDoc(postDocRef, {
-            voteStatus: increment(-1)
-          })
-          transaction.delete(userVotedRef)
-          setUpvoteColor('')
-          setVoteCount(voteCount - 1)
-         }
-         // else - i.e. if exists and not 'upvoted' it must be 'downvoted', thus add 2
-         else {
-          await updateDoc(postDocRef, {
-            voteStatus: increment(2)
-          })
-          transaction.set(userVotedRef, {
-            voteStatus: 'upvoted'
-          })
-          setUpvoteColor('green.400')
-          setDownvoteColor('')
-          setVoteCount(voteCount + 2)
-         }
-      }
-      // If there is no record of a vote by the user, register the vote and increment post votes
-      else {
-        transaction.set(userVotedRef, {
-          voteStatus: 'upvoted'
-        })
-        await updateDoc(postDocRef, {
-          voteStatus: increment(1)
-        })
+    // const postDocRef = doc(db, 'posts', postData.id);
+    //     await updateDoc(postDocRef, {
+    //     voteStatus: increment((downvoteStatus) ? 2 : 1 )
+    //       })
+        setVoteCount((downvoteStatus) ? voteCount + 2 : voteCount + 1)
+        setUpvoteStatus(true)
         setUpvoteColor('green.400')
-        setVoteCount(voteCount + 1)
-      }
-    })
+        setDownvoteColor('')
+        setDownvoteStatus(false)  
   }
 
   const downvotePost = async () => {
-    const postDocRef = doc(db, 'posts', postData.id);
-    const userVotedRef = doc(db, `users/${user?.uid}/votedPosts`, postData.id)
+    if (downvoteStatus) {
+      setVoteCount(voteCount + 1)
+      setUpvoteStatus(false)
+      setDownvoteStatus(false) 
+      setUpvoteColor('')
+      setDownvoteColor('')
+      return};
 
-    await runTransaction(db, async (transaction) => {
-      const docSnap = await transaction.get(userVotedRef);
-      if (docSnap.exists()) {
-         if (docSnap.data().voteStatus === 'downvoted') {
-          await updateDoc(postDocRef, {
-            voteStatus: increment(1)
-          })
-          transaction.delete(userVotedRef)
-          setDownvoteColor('')
-          setVoteCount(voteCount + 1)
-         }
-         // else - i.e. if exists and not 'downvoted' it must be 'upvoted', thus subtract 2
-         else {
-          await updateDoc(postDocRef, {
-            voteStatus: increment(-2)
-          })
-          transaction.set(userVotedRef, {
-            voteStatus: 'downvoted'
-          })
-          setDownvoteColor('red')
-          setUpvoteColor('')
-          setVoteCount(voteCount - 2)
-         }
-      }
-      // If there is no record of a vote by the user, register the vote and increment post votes
-      else {
-        transaction.set(userVotedRef, {
-          voteStatus: 'downvoted'
-        })
-        await updateDoc(postDocRef, {
-          voteStatus: increment(-1)
-        })
-        setDownvoteColor('red')
-        setVoteCount(voteCount - 1)
-      }
-    })
+      setVoteCount((upvoteStatus) ? voteCount - 2 : voteCount - 1)
+      setUpvoteStatus(false)
+      setUpvoteColor('')
+      setDownvoteColor('red')
+      setDownvoteStatus(true)  
   }
 
   return (
