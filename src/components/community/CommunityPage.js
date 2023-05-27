@@ -47,7 +47,7 @@ export default function CommunityPage({ submitRequest, user }) {
     if (commFetched.current) return;
     commFetched.current = true;
     loadCommunity();
-  }, []);
+  }, [community]);
 
   useEffect(() => {
     if (!user) return;

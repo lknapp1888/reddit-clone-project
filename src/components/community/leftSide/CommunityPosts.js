@@ -31,6 +31,13 @@ export default function CommunityPosts({community, sortSetting}) {
     getPosts(sortSetting)
   }, [])
 
+  // Any changes to 'community' triggers a new post retrieval (e.g. triggered when user directs
+  // to /c/...newcommunity via a react-dom Link component)
+  useEffect(() => {
+    getPosts(sortSetting)
+    console.log('triggered')
+  }, [community])
+
   // whenever sortSetting changes from user input, the posts stored in state render
   // as to reduce reads to firestore
   useEffect(() => {

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import {
   Flex,
   Button,
@@ -15,16 +15,41 @@ import {
 import { Icon, ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import { AiFillHome } from "react-icons/ai";
 import { showCommModal } from "../../features/modals/createCommModalToggleSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { doc, getDocs, query, collection } from "firebase/firestore";
+import { Link } from "react-router-dom";
+
 
 export default function CommunityMenu() {
   const [user, loading, error] = useAuthState(auth);
-  const dispatch = useDispatch()
+  const [userCommunities, setUserCommunities] = useState([]);
+  const [userModeratedCommunities, setUserModeratedCommunities] = useState([]);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    getUserCommunities();
+  }, [user]);
 
-  const openCreateCommModal = function() {
-      dispatch(showCommModal())
-  }
+  const getUserCommunities = async () => {
+    const q = query(collection(db, `users/${user?.uid}/communitySnippets`));
+    const querySnapshot = await getDocs(q);
+    let commArr = [];
+    let modArr = [];
+    querySnapshot.forEach((doc) => {
+      if (doc.data().isModerator) {
+        modArr.push(doc.data());
+      } else {
+        commArr.push(doc.data());
+      }
+    });
+    setUserCommunities(commArr);
+    setUserModeratedCommunities(modArr);
+  };
+
+  const openCreateCommModal = function () {
+    dispatch(showCommModal());
+  };
 
   if (user) {
     return (
@@ -57,18 +82,22 @@ export default function CommunityMenu() {
               Moderating
             </Text>
             <Flex flexDirection="column">
-              <Text>exampleCommunity</Text>
+              {userModeratedCommunities.map((comm) => (
+                <Link to={`/c/${comm.communityId}`}>
+                <Text>{comm.communityId}</Text>
+              </Link>
+            ))}
             </Flex>
             <Text fontSize="1.25rem" fontWeight="bold">
               My Communities
             </Text>
             <Flex flexDirection="column">
-              <Text>exampleCommunity</Text>
-              <Text>exampleComm</Text>
-              <Text>soccer</Text>
+              {userCommunities.map((comm) => (
+                <Link to={`/c/${comm.communityId}`}>
+                  <Text>{comm.communityId}</Text>
+                </Link>
+              ))}
             </Flex>
-            {/* <MenuItem>
-                  </MenuItem> */}
           </MenuList>
         </Menu>
       </Flex>
