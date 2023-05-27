@@ -1,8 +1,12 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
+import AboutCommunity from './AboutCommunity';
 
-export default function CommunityRightSide({width}) {
+
+export default function CommunityRightSide({width, community, communityData}) {
   return (
-    <Flex border='solid red 1px' width={width}>CommunityRightSide</Flex>
+    <Flex width={width}>
+      <AboutCommunity border='solid red 1px' width={width} community={community} communityData={communityData}></AboutCommunity>
+    </Flex>
   )
 }

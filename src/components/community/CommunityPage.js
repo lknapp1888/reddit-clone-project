@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { CircleIcon } from '../../chakra/circleIcon';
@@ -11,8 +11,11 @@ import CommunityRightSide from './rightSide/CommunityRightSide';
 
 export default function CommunityPage({submitRequest}) {
     const community = useParams().community;
+    const [communityData, setCommunityData] = useState({})
     const [communityExist, setCommunityExist] = useState(false)
     const [loading, setLoading ] = useState(true)
+
+    const commFetched = useRef(false);
 
     const loadCommunity = async () => {
       const docRef = doc(db, "communities", community);
@@ -22,6 +25,7 @@ export default function CommunityPage({submitRequest}) {
         if (docSnap.exists()) {
           setLoading(false)
           setCommunityExist(true)
+          setCommunityData(docSnap.data())
           return
         }
         setLoading(false)
@@ -29,6 +33,8 @@ export default function CommunityPage({submitRequest}) {
     }
 
     useEffect(() => {
+      if (commFetched.current) return;
+      commFetched.current = true;
       loadCommunity()
     }, [])
 
@@ -45,7 +51,7 @@ export default function CommunityPage({submitRequest}) {
     <CommunityHeader community={community}></CommunityHeader>
     <Flex width='100%' justify='center' padding='20px 24px' gap='10'>
       <CommunityLeftSide submitRequest={submitRequest} width='900px' community={community}></CommunityLeftSide>
-      <CommunityRightSide width='320px'></CommunityRightSide>
+      <CommunityRightSide width='320px' community={community} communityData={communityData}></CommunityRightSide>
     </Flex>
     </ Flex>
   )
