@@ -21,9 +21,9 @@ export default function Main() {
         <SignInModal></SignInModal>
         <CreateCommunityModal></CreateCommunityModal>
       <Routes>
-        <Route path="/c/:community" element={<CommunityPage/>}></Route>
-        <Route path="/c/:community/submit" element={<CommunityPage submitRequest={true}/>}></Route>
-        <Route path="/c/:community/post/:postId" element={<PostPage/>}></Route>
+        <Route path="/c/:community" element={<CommunityPage user={user}/>}></Route>
+        <Route path="/c/:community/submit" element={<CommunityPage user={user}submitRequest={true}/>}></Route>
+        <Route path="/c/:community/post/:postId" element={<PostPage user={user}/>}></Route>
       </Routes>
       </ Flex>
     );
