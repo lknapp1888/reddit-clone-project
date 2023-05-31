@@ -3,6 +3,7 @@ import { Flex, Heading, Text, Button, Spinner } from "@chakra-ui/react";
 import { CircleIcon } from "../../chakra/circleIcon";
 import { doc, getDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { Link } from "react-router-dom";
 
 export default function CommunityHeader({ community, userMember, setUserMember, user }) {
   const communityMembershipToggle = async () => {
@@ -36,8 +37,10 @@ export default function CommunityHeader({ community, userMember, setUserMember, 
     >
       <CircleIcon boxSize={75} color="white"></CircleIcon>
       <Flex direction="column">
-        <Heading>{community}</Heading>
-        <Text>c/{community}</Text>
+        <Link to={`/c/${community}`}>
+          <Heading>{community}</Heading>
+          <Text>c/{community}</Text>
+        </Link>
       </Flex>
       {userMember === "loading" ? (
         <Spinner></Spinner>
