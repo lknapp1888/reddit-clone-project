@@ -3,10 +3,10 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
 import { CircleIcon } from "../../../chakra/circleIcon";
 import PostItem from './PostItem';
-import { query, where, collection, orderBy, getDocs } from 'firebase/firestore';
+import { query, where, collection, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 
-export default function CommunityPosts({community, sortSetting}) {
+export default function CommunityPosts({community, sortSetting, user}) {
   const [posts, setPosts] = useState([]);
   const postsFetched = useRef(false);
 
@@ -24,6 +24,16 @@ export default function CommunityPosts({community, sortSetting}) {
     }
   }
 
+  const deletePost = async (postId) => {
+    try {
+      await deleteDoc(doc(db, 'posts', postId))
+      let postsCopy = posts;
+      setPosts(postsCopy.filter(post => post.id !== postId))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 // initial render gets posts directly from server and saves in state
   useEffect(() => {
     if (postsFetched.current) return;
@@ -35,7 +45,6 @@ export default function CommunityPosts({community, sortSetting}) {
   // to /c/...newcommunity via a react-dom Link component)
   useEffect(() => {
     getPosts(sortSetting)
-    console.log('triggered')
   }, [community])
 
   // whenever sortSetting changes from user input, the posts stored in state render
@@ -60,7 +69,7 @@ export default function CommunityPosts({community, sortSetting}) {
 
   return (
     <Flex direction='column' gap='3'>
-      {posts.map(p => (<PostItem postData={p}></PostItem>))}
+      {posts.map(p => (<PostItem postData={p} user={user} deletePost={deletePost}></PostItem>))}
     </Flex>
   )
 }

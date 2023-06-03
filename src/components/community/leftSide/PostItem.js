@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Button } from '@chakra-ui/react';
 import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
 import { CircleIcon } from "../../../chakra/circleIcon";
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -8,7 +8,7 @@ import { db } from '../../../config/firebase';
 
 
 
-export default function PostItem({postData}) {
+export default function PostItem({postData, user, deletePost}) {
   const [voteCount, setVoteCount ] = useState(postData.voteStatus);
 
   const [upvoteStatus, setUpvoteStatus ] = useState(false)
@@ -26,10 +26,6 @@ export default function PostItem({postData}) {
     setDownvoteColor('')
     return}
 
-    // const postDocRef = doc(db, 'posts', postData.id);
-    //     await updateDoc(postDocRef, {
-    //     voteStatus: increment((downvoteStatus) ? 2 : 1 )
-    //       })
         setVoteCount((downvoteStatus) ? voteCount + 2 : voteCount + 1)
         setUpvoteStatus(true)
         setUpvoteColor('green.400')
@@ -51,6 +47,10 @@ export default function PostItem({postData}) {
       setUpvoteColor('')
       setDownvoteColor('red')
       setDownvoteStatus(true)  
+  }
+
+  const handleDeleteRequest = () => {
+    deletePost(postData.id)
   }
 
   return (
@@ -76,11 +76,12 @@ export default function PostItem({postData}) {
             {postData.text}
             </Text>
         </Flex>
-        <Flex bg='white' height='50px' marginLeft='3'>
+        <Flex bg='white' height='50px' marginLeft='3' justifyContent='space-between'>
           <Flex align='center' gap='2' _hover={{bg: 'gray.100'}}>
             <ChatIcon ></ChatIcon>
             <Text>{postData.commentNumber} comments</Text>
           </Flex>
+          { user ? ((user.uid === postData.authorId) ? <Button onClick={handleDeleteRequest}>Delete</Button> : <></>) : <></>}
         </Flex>
       </Flex>
     </Flex>

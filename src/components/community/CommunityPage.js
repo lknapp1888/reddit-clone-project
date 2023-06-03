@@ -75,6 +75,7 @@ export default function CommunityPage({ submitRequest, user }) {
             submitRequest={submitRequest}
             width="900px"
             community={community}
+            user={user}
           ></CommunityLeftSide>
           <CommunityRightSide
             width="320px"
