@@ -8,6 +8,11 @@ export default function PagePostItem({user, community, postId}) {
     const [textError, setTextError] = useState("");
 
     const submitComment = async () => {
+        if (text.length === 0) {
+            setTextError('Comment must contain at least one character')
+            return;
+          }
+
         try {
             await addDoc(collection(db, "comments"), {
               text: text,
