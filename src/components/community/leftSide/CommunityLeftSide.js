@@ -1,17 +1,17 @@
+import { Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Flex, Text } from "@chakra-ui/react";
-import SortHeader from "./SortHeader";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../../config/firebase";
-import SubmitPostHeader from "./SubmitPostHeader";
 import PostSubmit from "../PostSubmit";
 import CommunityPosts from "./CommunityPosts";
+import SortHeader from "./SortHeader";
+import SubmitPostHeader from "./SubmitPostHeader";
+import PostPage from "../../posts/PostPage";
 
-export default function CommunityLeftSide({ width, submitRequest, community, user }) {
+export default function CommunityLeftSide({ width, submitRequest, community, user, postPageRequest }) {
   const [sortSetting, setSortSetting] = useState('top')
 
 
-  if (!submitRequest) {
+  //if user not requesting submit page or post page, generate community feed
+  if (!submitRequest && !postPageRequest) {
   return (
     <Flex width={width} direction='column' gap='10px'>
       <SortHeader setSortSetting={setSortSetting}></SortHeader>
@@ -20,11 +20,19 @@ export default function CommunityLeftSide({ width, submitRequest, community, use
     </Flex>
   );
   }
+  if (submitRequest) {
+    return (
+      <Flex width={width} direction='column' gap='10px'>
+        <PostSubmit community={community}></PostSubmit>
+      </Flex>
+  );
+  }
+  // only remaining option is a postPageRequest
   else {
     return (
-    <Flex border="solid blue 1px" width={width} direction='column' gap='10px'>
-      <PostSubmit community={community}></PostSubmit>
-    </Flex>
-);
+      <Flex width={width} direction='column' gap='10px'>
+        <PostPage community={community} user={user} community={community}></PostPage>
+      </Flex>
+  );
   }
 }

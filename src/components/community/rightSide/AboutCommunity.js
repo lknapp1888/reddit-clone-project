@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex, VStack, StackDivider, Box, Text, Divider } from "@chakra-ui/react";
+import { Divider, Flex, Text } from "@chakra-ui/react";
 import format from "date-fns/format";
+import React from "react";
 
-export default function AboutCommunity({width, community, communityData}) {
+export default function AboutCommunity({width, communityData}) {
   return (
     <Flex width={width} height='min-content' direction='column'>
         <Flex bg='red.400'  padding='12px'>About community</Flex>
