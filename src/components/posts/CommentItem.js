@@ -1,10 +1,10 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
-export default function CommentItem() {
+export default function CommentItem({commentData}) {
   return (
     <Flex>
-        Hello I'm a comment
+        <Text>{commentData.text}</Text>
     </Flex>
   )
 }

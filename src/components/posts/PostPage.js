@@ -1,9 +1,9 @@
 import { Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import PagePostItem from "./PagePostItem";
 import CommentItem from "./CommentItem";
-import { doc, getDoc} from "firebase/firestore";
+import { doc, getDoc, query, collection, where, orderBy, getDocs} from "firebase/firestore";
 import { db } from "../../config/firebase";
 
 export default function PostPage({ community, user }) {
@@ -12,9 +12,17 @@ export default function PostPage({ community, user }) {
   const [postExist, setPostExist] = useState(false)
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {
-    getPost()
+  const postFetched = useRef(false);
+  const commentsFetched = useRef(false)
 
+  useEffect(() => {
+    if (postFetched.current && commentsFetched.current) {
+      return;
+    }
+    getPost()
+    getComments()
+    postFetched.current = true;
+    commentsFetched.current = true;
   }, []);
 
   const getPost = async () => {
@@ -29,11 +37,23 @@ export default function PostPage({ community, user }) {
     }
   };
 
-  const getComments = async () => {};
+  const getComments = async () => {
+    try {
+      const commentQuery = query(
+        collection(db, 'comments'),
+        where('communityId', '==', community),
+        orderBy('postTime', 'desc')
+      );
+      const comments = await (await getDocs(commentQuery)).docs.map((doc) => ({id: doc.id, ...doc.data()}))
+      setComments(comments)
+    } catch (e) {
+      console.log(e)
+    }
+  };
  
   if (postExist) {
   return (
-    <Flex width="100%" direction="column" bg="white" height="400px">
+    <Flex width="100%" direction="column" bg="white">
       <PagePostItem
         postData={postData}
         postId={postId}
@@ -41,7 +61,7 @@ export default function PostPage({ community, user }) {
         community={community}
       ></PagePostItem>
       {comments.map((c) => (
-        <CommentItem></CommentItem>
+        <CommentItem commentData={c}></CommentItem>
       ))}
     </Flex>
   );
@@ -49,7 +69,7 @@ export default function PostPage({ community, user }) {
   else {
     return (
       <Flex>
-        No such comment
+        No such post
       </Flex>
     )
   }
