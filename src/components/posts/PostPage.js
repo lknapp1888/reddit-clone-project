@@ -49,7 +49,7 @@ export default function PostPage({ community, user }) {
     try {
       const commentQuery = query(
         collection(db, "comments"),
-        where("communityId", "==", community),
+        where("parentPostId", "==", postId),
         orderBy("postTime", "desc")
       );
       const comments = await (
