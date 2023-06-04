@@ -49,9 +49,9 @@ export default function PagePostItem({ user, community, postId, postData }) {
       </Flex>
       <Flex direction="column" gap="10px">
         <FormControl>
-          <FormLabel fontSize="xl">Posting as user</FormLabel>
+          <FormLabel fontSize="xl">Posting as {user.email.split('@')[0]}</FormLabel>
           <Textarea
-            placeholder="optional"
+            placeholder="leave a comment"
             value={text}
             maxLength="20000"
             onChange={(e) => {

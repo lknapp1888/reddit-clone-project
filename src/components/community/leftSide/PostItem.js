@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Flex, Text, Button } from '@chakra-ui/react';
-import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
-import { CircleIcon } from "../../../chakra/circleIcon";
+import { ChatIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { doc, updateDoc, deleteDoc, increment, runTransaction, getDoc } from "firebase/firestore"; 
-import { db } from '../../../config/firebase';
-
+import React, { useState } from 'react';
+import { CircleIcon } from "../../../chakra/circleIcon";
+import { Link } from "react-router-dom";
 
 
 export default function PostItem({postData, user, deletePost}) {
@@ -77,10 +75,12 @@ export default function PostItem({postData, user, deletePost}) {
             </Text>
         </Flex>
         <Flex bg='white' height='50px' marginLeft='3' justifyContent='space-between'>
-          <Flex align='center' gap='2' _hover={{bg: 'gray.100'}}>
-            <ChatIcon ></ChatIcon>
-            <Text>{postData.commentNumber} comments</Text>
-          </Flex>
+          <Link to={`/c/${postData.communityId}/post/${postData.id}`}>
+            <Flex align='center' gap='2' _hover={{bg: 'gray.100'}}>
+              <ChatIcon ></ChatIcon>
+              <Text>{postData.commentNumber} comments</Text>
+            </Flex>
+          </Link>
           { user ? ((user.uid === postData.authorId) ? <Button onClick={handleDeleteRequest}>Delete</Button> : <></>) : <></>}
         </Flex>
       </Flex>
