@@ -69,6 +69,8 @@ export default function PostPage({ community, user }) {
           postId={postId}
           user={user}
           community={community}
+          comments={comments}
+          setComments={setComments}
         ></PagePostItem>
         <Box position="relative" padding="10">
           <Divider />
