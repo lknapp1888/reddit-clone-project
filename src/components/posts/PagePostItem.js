@@ -1,16 +1,13 @@
-import { React, useState } from "react";
 import {
-  Flex,
+  Button, Divider, Flex,
   FormControl,
-  FormLabel,
-  Text,
-  Textarea,
-  Button,
-  Input,
+  FormLabel, Heading, Text,
+  Textarea
 } from "@chakra-ui/react";
-import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../config/firebase";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { React, useState } from "react";
+import { db } from "../../config/firebase";
 
 export default function PagePostItem({ user, community, postId, postData }) {
   const [text, setText] = useState("");
@@ -40,16 +37,24 @@ export default function PagePostItem({ user, community, postId, postData }) {
 
   return (
     <Flex direction="column" width="75%" margin="6" gap="5">
-      <Flex direction='column'>
-        <Text fontSize='xl' fontWeight='bold'>{postData.title}</Text>
-        <Flex border="solid black 1px" direction='column'>
+      <Flex direction="column" gap="5">
+        <Flex gap='1' direction='column'>
+          <Heading>{postData.title}</Heading>
+          <Text fontWeight='bold'>
+            Posted {formatDistanceToNowStrict(postData.postTime.toDate())} ago by{" "}
+            {postData.authorDisplayName}
+          </Text>
+        </Flex>
+        <Flex direction="column">
           <Text>{postData.text}</Text>
         </Flex>
-        <Text>Posted {formatDistanceToNowStrict(postData.postTime.toDate())} ago by {postData.authorDisplayName}</Text>
       </Flex>
+      <Divider orientation='horizontal' />
       <Flex direction="column" gap="10px">
         <FormControl>
-          <FormLabel fontSize="xl">Posting as {user.email.split('@')[0]}</FormLabel>
+          <FormLabel fontSize="xl">
+            Posting as {user.email.split("@")[0]}
+          </FormLabel>
           <Textarea
             placeholder="leave a comment"
             value={text}
