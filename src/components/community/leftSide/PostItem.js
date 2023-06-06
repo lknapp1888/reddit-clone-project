@@ -4,18 +4,24 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import React, { useState } from 'react';
 import { CircleIcon } from "../../../chakra/circleIcon";
 import { Link } from "react-router-dom";
+import { showModal } from '../../../features/modals/modalToggleSlice';
+import { useDispatch } from 'react-redux';
 
 
 export default function PostItem({postData, user, deletePost}) {
   const [voteCount, setVoteCount ] = useState(postData.voteStatus);
 
-  const [upvoteStatus, setUpvoteStatus ] = useState(false)
-  const [downvoteStatus, setDownvoteStatus ] = useState(false)
+  const [upvoteStatus, setUpvoteStatus ] = useState(false);
+  const [downvoteStatus, setDownvoteStatus ] = useState(false);
 
-  const [upvoteColor, setUpvoteColor ] = useState('')
-  const [downvoteColor, setDownvoteColor ] = useState('')
+  const [upvoteColor, setUpvoteColor ] = useState('');
+  const [downvoteColor, setDownvoteColor ] = useState('');
+
+  const dispatch = useDispatch();
 
   const upvotePost = async () => {
+    if (!user) {dispatch(showModal()) 
+      return}
     if (upvoteStatus) {
     setVoteCount(voteCount - 1)
     setUpvoteStatus(false)
@@ -32,6 +38,8 @@ export default function PostItem({postData, user, deletePost}) {
   }
 
   const downvotePost = async () => {
+    if (!user) {dispatch(showModal()) 
+      return}
     if (downvoteStatus) {
       setVoteCount(voteCount + 1)
       setUpvoteStatus(false)

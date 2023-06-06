@@ -1,3 +1,4 @@
+import { ChatIcon } from "@chakra-ui/icons";
 import {
   Button,
   Divider,
@@ -6,24 +7,24 @@ import {
   FormLabel,
   Heading,
   Text,
-  Textarea,
+  Textarea
 } from "@chakra-ui/react";
-import { ChatIcon } from "@chakra-ui/icons";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import {
   addDoc,
-  collection,
-  serverTimestamp,
-  updateDoc,
-  doc,
-  increment,
+  collection, doc,
+  increment, serverTimestamp,
+  updateDoc
 } from "firebase/firestore";
 import { React, useState } from "react";
+import { useDispatch } from "react-redux";
 import { db } from "../../config/firebase";
+import { showModal } from "../../features/modals/modalToggleSlice";
 
 export default function PagePostItem({ user, community, postId, postData, comments, setComments }) {
   const [text, setText] = useState("");
   const [textError, setTextError] = useState("");
+  const dispatch = useDispatch();
 
   const submitComment = async () => {
     if (text.length === 0) {
@@ -81,8 +82,8 @@ export default function PagePostItem({ user, community, postId, postData, commen
         </Flex>
       </Flex>
       <Divider orientation="horizontal" />
-      <Flex direction="column" gap="10px">
-        <FormControl>
+      <Flex direction="column" gap="10px" align='center'>
+        {user ? <FormControl>
           <FormLabel fontSize="xl">
             Posting as {user.email.split("@")[0]}
           </FormLabel>
@@ -101,7 +102,8 @@ export default function PagePostItem({ user, community, postId, postData, commen
             </Button>
           </Flex>
           <Text color="red">{textError}</Text>
-        </FormControl>
+        </FormControl> : 
+        <Button width='min-content' onClick={() => dispatch(showModal())}>Please sign in or register to comment</Button>}
       </Flex>
     </Flex>
   );
