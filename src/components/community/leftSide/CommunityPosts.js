@@ -1,16 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { TriangleUpIcon, TriangleDownIcon, ChatIcon} from '@chakra-ui/icons';
-import { CircleIcon } from "../../../chakra/circleIcon";
-import PostItem from './PostItem';
-import { query, where, collection, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import { Flex } from '@chakra-ui/react';
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react';
 import { db } from '../../../config/firebase';
+import PostItem from './PostItem';
 
-export default function CommunityPosts({community, sortSetting, user}) {
+export default function CommunityPosts({community, sortSetting, user, setSortSetting}) {
   const [posts, setPosts] = useState([]);
   const postsFetched = useRef(false);
 
   const getPosts = async (sortOption = 'top') => {
+    if (community !== null) {
     try {
       const postQuery = query(
         collection(db, 'posts'),
@@ -19,8 +18,41 @@ export default function CommunityPosts({community, sortSetting, user}) {
       );
       const posts = await (await getDocs(postQuery)).docs.map((doc) => ({id: doc.id, ...doc.data()}))
       setPosts(posts)
+      setSortSetting('new')
     } catch (e) {
       console.log(e)
+    }
+  }
+  if (community === null) {
+  try {
+    const postQuery = query(
+      collection(db, 'posts'),
+      orderBy(`${(sortOption === 'top') ? 'voteStatus' : 'postTime'}`, 'desc')
+    );
+    const posts = await (await getDocs(postQuery)).docs.map((doc) => ({id: doc.id, ...doc.data()}))
+    setPosts(posts)
+    setSortSetting('new')
+  } catch (e) {
+    console.log(e)
+  }
+}
+  }
+
+  const updatePosts = () => {
+        const postsCopy = posts;
+    if (sortSetting === 'top') {
+      //sort by upvotes
+      setPosts(postsCopy.sort((a, b) => { 
+        return b.voteStatus - a.voteStatus;
+    }))
+      return
+    }
+    else {
+      // sort by new
+      setPosts(postsCopy.sort((a, b) => { 
+        return b.postTime - a.postTime;
+    }))
+      return
     }
   }
 
@@ -50,21 +82,7 @@ export default function CommunityPosts({community, sortSetting, user}) {
   // whenever sortSetting changes from user input, the posts stored in state render
   // as to reduce reads to firestore
   useEffect(() => {
-    const postsCopy = posts;
-    if (sortSetting === 'top') {
-      //sort by upvotes
-      setPosts(postsCopy.sort((a, b) => { 
-        return a.voteStatus - b.voteStatus;
-    }))
-      return
-    }
-    else {
-      // sort by new
-      setPosts(postsCopy.sort((a, b) => { 
-        return a.postTime - b.postTime;
-    }))
-      return
-    }
+    updatePosts()
   }, [sortSetting])
 
   return (

@@ -6,7 +6,7 @@ import { auth } from "../config/firebase";
 import CommunityPage from "./community/CommunityPage";
 import SignInModal from "./modals/authModals/SignInModal";
 import CreateCommunityModal from "./modals/createCommunityModals/CreateCommunityModal";
-import PostPage from "./posts/PostPage";
+import GenericPostFeed from "./GenericFeed/GenericPostFeed";
 
 export default function Main() {
   const [user, loading, error] = useAuthState(auth);
@@ -17,6 +17,12 @@ export default function Main() {
       <SignInModal></SignInModal>
       <CreateCommunityModal></CreateCommunityModal>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <GenericPostFeed user={user}/>
+          }
+        ></Route>
         <Route
           path="/c/:community"
           element={

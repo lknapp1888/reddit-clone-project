@@ -20,7 +20,6 @@ import { useState } from "react";
 import { doc, getDocs, query, collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
-
 export default function CommunityMenu() {
   const [user, loading, error] = useAuthState(auth);
   const [userCommunities, setUserCommunities] = useState([]);
@@ -53,16 +52,18 @@ export default function CommunityMenu() {
 
   if (user) {
     return (
-      <Flex align="center">
+      <Flex align="center" gap='2'>
+        <Link to='/'>
+          <Icon
+            as={AiFillHome}
+            boxSize={8}
+            _hover={{ color: "brand.100" }}
+          ></Icon>
+        </Link>
         <Menu>
           <MenuButton as={IconButton} aria-label="Options" variant="home">
             <Flex align="center" gap={1} marginRight={2}>
-              <Icon
-                as={AiFillHome}
-                boxSize={6}
-                _hover={{ color: "brand.100" }}
-              ></Icon>
-              <Text hideBelow="md">Home</Text>
+              <Text hideBelow="md">Communities</Text>
               <ChevronDownIcon></ChevronDownIcon>
             </Flex>
           </MenuButton>
@@ -84,9 +85,9 @@ export default function CommunityMenu() {
             <Flex flexDirection="column">
               {userModeratedCommunities.map((comm) => (
                 <Link to={`/c/${comm.communityId}`}>
-                <Text>{comm.communityId}</Text>
-              </Link>
-            ))}
+                  <Text>{comm.communityId}</Text>
+                </Link>
+              ))}
             </Flex>
             <Text fontSize="1.25rem" fontWeight="bold">
               My Communities
@@ -103,4 +104,17 @@ export default function CommunityMenu() {
       </Flex>
     );
   }
+  else {
+    return (
+    <Flex align='center' justify='center' marginRight='2' marginTop='1'>
+      <Link to='/'>
+      <Icon
+        as={AiFillHome}
+        boxSize={8}
+        _hover={{ color: "brand.100" }}
+      ></Icon>
+        </Link>
+    </Flex>
+  );
+    }
 }

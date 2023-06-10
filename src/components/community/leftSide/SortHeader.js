@@ -10,8 +10,8 @@ export default function SortHeader({setSortSetting}) {
     <Flex width='100%' bg='white' padding='10px'>
         <Tabs variant='soft-rounded' colorScheme='red'>
         <TabList>
-          <Tab onClick={updateSortSetting} value='top'>Top</Tab>
-          <Tab onClick={updateSortSetting} value='new'>New</Tab>
+          <Tab onClick={updateSortSetting} value='new'>top</Tab>
+          <Tab onClick={updateSortSetting} value='top'>new</Tab>
         </TabList>
           </Tabs>
     </Flex>

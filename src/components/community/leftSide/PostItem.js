@@ -1,7 +1,7 @@
 import { ChatIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { formatDistanceToNowStrict } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircleIcon } from "../../../chakra/circleIcon";
 import { Link } from "react-router-dom";
 import { showModal } from '../../../features/modals/modalToggleSlice';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 
 export default function PostItem({postData, user, deletePost}) {
-  const [voteCount, setVoteCount ] = useState(postData.voteStatus);
+  const [voteCount, setVoteCount ] = useState(0);
 
   const [upvoteStatus, setUpvoteStatus ] = useState(false);
   const [downvoteStatus, setDownvoteStatus ] = useState(false);
@@ -18,6 +18,10 @@ export default function PostItem({postData, user, deletePost}) {
   const [downvoteColor, setDownvoteColor ] = useState('');
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setVoteCount(postData.voteStatus)
+  }, [postData])
 
   const upvotePost = async () => {
     if (!user) {dispatch(showModal()) 
