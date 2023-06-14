@@ -48,7 +48,10 @@ export default function CommunityPage({ submitRequest, user, postPageRequest }) 
   }, [community]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setUserMember(false)
+      return
+    };
     loadUserStatus();
   }, [user]);
 
