@@ -11,6 +11,7 @@ import {
   where,
   orderBy,
   getDocs,
+  deleteDoc
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
@@ -61,6 +62,16 @@ export default function PostPage({ community, user }) {
     }
   };
 
+  const deleteComment = async (commentId) => {
+    try {
+      await deleteDoc(doc(db, 'comments', commentId))
+      let commentsCopy = comments;
+      setComments(commentsCopy.filter(comm => comm.id !== commentId))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   if (postExist) {
     return (
       <Flex width="100%" direction="column" bg="white">
@@ -79,7 +90,7 @@ export default function PostPage({ community, user }) {
           </AbsoluteCenter>
         </Box>
         {comments.map((c) => (
-          <CommentItem commentData={c}></CommentItem>
+          <CommentItem commentData={c} user={user} deleteComment={deleteComment}></CommentItem>
         ))}
       </Flex>
     );

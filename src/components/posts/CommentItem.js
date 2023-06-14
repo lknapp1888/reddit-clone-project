@@ -1,9 +1,15 @@
 import React from "react";
-import { Divider, Flex, Text } from "@chakra-ui/react";
+import { Divider, Flex, Text, Button } from "@chakra-ui/react";
 import { CircleIcon } from "../../chakra/circleIcon";
 import { formatDistanceToNowStrict } from "date-fns";
 
-export default function CommentItem({ commentData }) {
+export default function CommentItem({ commentData, user, deleteComment }) {
+
+
+
+  const handleDeleteRequest = () => {
+    deleteComment(commentData.id)
+  }
 
   return (
     <Flex direction="column" margin="3">
@@ -16,7 +22,7 @@ export default function CommentItem({ commentData }) {
           {/* any new comments added to the comments state array are not in the firestore
           servertimestamp format and therefore do not need converting - trying to convert them
           using toDate() gives us a react error*/}
-          {(commentData.postTime.seconds)
+          {commentData.postTime.seconds
             ? formatDistanceToNowStrict(commentData.postTime.toDate())
             : formatDistanceToNowStrict(commentData.postTime)}{" "}
           ago
@@ -25,6 +31,15 @@ export default function CommentItem({ commentData }) {
       <Text marginLeft="10" marginBottom="4">
         {commentData.text}
       </Text>
+      {user ? (
+        user.uid === commentData.authorId ? (
+          <Button onClick={handleDeleteRequest}>Delete</Button>
+        ) : (
+          <></>
+        )
+      ) : (
+        <></>
+      )}
       <Divider width="80%" />
     </Flex>
   );
