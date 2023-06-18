@@ -4,9 +4,16 @@ import { CircleIcon } from "../../chakra/circleIcon";
 import { doc, getDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { Link } from "react-router-dom";
+import { showModal } from "../../features/modals/modalToggleSlice";
+import { useDispatch } from 'react-redux';
 
 export default function CommunityHeader({ community, userMember, setUserMember, user }) {
+
+  const dispatch = useDispatch();
+
   const communityMembershipToggle = async () => {
+    if (!user) {dispatch(showModal()) 
+      return}
     if (userMember) {
       // leave community
       const docRef = doc(db, `users/${user?.uid}/communitySnippets`, community);
