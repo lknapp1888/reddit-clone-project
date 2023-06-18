@@ -11,7 +11,7 @@ export default function GenericPostFeed({user}) {
     <Flex width="100%" direction="column" align='center'>
     <Flex width="100%" justify="center" padding="20px 24px" gap="10">
           {/* left side */}
-            <Flex width='900px' direction='column' gap='10px'>
+            <Flex direction='column' gap='10px' maxWidth='900px'>
               <SortHeader setSortSetting={setSortSetting}></SortHeader>
             <CommunityPosts community={null} sortSetting={sortSetting} user={user} setSortSetting={setSortSetting}></CommunityPosts>
             </Flex>

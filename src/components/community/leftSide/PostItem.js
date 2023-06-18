@@ -64,21 +64,21 @@ export default function PostItem({postData, user, deletePost}) {
   }
 
   return (
-    <Flex max-height='270px' flex='auto'>
-      <Flex bg='gray.300' width='6%' justify='center'>
+    <Flex max-height='270px' minWidth='345px'>
+      <Flex bg='gray.300' width='30px' justify='center'>
         <Flex direction='column' align='center' margin='3'>
-          <TriangleUpIcon color={upvoteColor} boxSize={6} _hover={{color: 'green.400'}} onClick={upvotePost}></TriangleUpIcon>
-          <Text fontSize='22px'>{voteCount}</Text>
-          <TriangleDownIcon color={downvoteColor} boxSize={6} _hover={{color: 'red'}} onClick={downvotePost}></TriangleDownIcon>
+          <TriangleUpIcon color={upvoteColor} boxSize={5} _hover={{color: 'green.400'}} onClick={upvotePost}></TriangleUpIcon>
+          <Text fontSize='18px'>{voteCount}</Text>
+          <TriangleDownIcon color={downvoteColor} boxSize={5} _hover={{color: 'red'}} onClick={downvotePost}></TriangleDownIcon>
         </Flex>
       </Flex>
       <Flex bg='white' flex='auto' direction='column' cursor='pointer'>
-        <Flex gap='3' align='center'>
+        <Flex gap='3' align='center' flexWrap='wrap'>
           <CircleIcon boxSize={10} color="brand.100"></CircleIcon>
           <Link to={`/c/${postData.communityId}`}>
-            <Text fontSize='2xl'>c/{postData.communityId}</Text>
+            <Text fontSize='xl'>c/{postData.communityId}</Text>
           </Link>
-          <Text>Posted by u/{postData.authorDisplayName} {formatDistanceToNowStrict(postData.postTime.toDate())} ago</Text>
+          <Text marginLeft={3} fontSize='md'>Posted by u/{postData.authorDisplayName} {formatDistanceToNowStrict(postData.postTime.toDate())} ago</Text>
         </Flex>
         <Flex marginLeft='3' marginTop='1'>
           <Text fontSize='2xl'>{postData.title}</Text>
@@ -88,7 +88,7 @@ export default function PostItem({postData, user, deletePost}) {
             {postData.text}
             </Text>
         </Flex>
-        <Flex bg='white' height='50px' marginLeft='3' justifyContent='space-between'>
+        <Flex bg='white' height='50px' marginLeft='3' marginRight='3' justifyContent='space-between'>
           <Link to={`/c/${postData.communityId}/post/${postData.id}`}>
             <Flex align='center' gap='2' _hover={{bg: 'gray.100'}}>
               <ChatIcon ></ChatIcon>

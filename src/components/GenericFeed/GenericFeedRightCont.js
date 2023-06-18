@@ -31,7 +31,7 @@ export default function GenericFeedRightCont({width}) {
 if (loading) {
     return (
         <Flex width={width} height='min-content' direction='column'>
-        <Flex bg='red.400'  padding='12px'>ALL</Flex>
+        <Flex bg='brand.100'  padding='12px'>ALL</Flex>
         <Flex bg='white' direction='column'  padding='12px' gap='3'>
             <Heading size='sm'>Popular Communities</Heading>
             <Spinner></Spinner>
@@ -42,8 +42,8 @@ if (loading) {
 }
 else {
     return (
-        <Flex width={width} height='min-content' direction='column'>
-        <Flex bg='red.400'  padding='12px'>ALL</Flex>
+        <Flex width={width} height='min-content' direction='column' hideBelow="md">
+        <Flex bg='brand.100'  padding='12px'>ALL</Flex>
         <Flex bg='white' direction='column'  padding='12px' gap='3'>
             <Heading size='md'>Popular Communities</Heading>
             {communities.map(comm => <Flex align='center' gap={3} justifyContent='space-between'>

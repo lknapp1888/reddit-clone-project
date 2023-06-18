@@ -10,9 +10,13 @@ export const Button = defineStyleConfig({
   },
   variants: {
     outline: {
-      border: '1px solid',
-      borderColor: 'brand.100',
-      color: 'brand.100',
+      border: '2px solid',
+      borderColor: 'white',
+      color: 'white',
+      background: 'brand.100',
+      _hover: {
+        background: 'blue.500'
+      }
     },
     deleteBtn: {
       border: '1px solid',

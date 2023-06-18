@@ -5,7 +5,7 @@ import React from "react";
 export default function AboutCommunity({width, communityData}) {
   return (
     <Flex width={width} height='min-content' direction='column'>
-        <Flex bg='red.400'  padding='12px'>About community</Flex>
+        <Flex bg='brand.100'  padding='12px'>About community</Flex>
         <Flex bg='white' direction='column'  padding='12px' gap='3'>
             <Text>
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt laboriosam, dignissimos corporis ex vel molestias soluta ipsa dolor quibusdam, atque velit veritatis nam pariatur laborum totam facere odit, aperiam doloribus?

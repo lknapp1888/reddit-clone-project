@@ -64,7 +64,7 @@ export default function CommunityPage({ submitRequest, user, postPageRequest }) 
   }
   if (communityExist) {
     return (
-      <Flex width="100%" direction="column">
+      <Flex width="100%" direction="column" align='center'>
         <CommunityHeader
           community={community}
           userMember={userMember}
@@ -75,7 +75,6 @@ export default function CommunityPage({ submitRequest, user, postPageRequest }) 
           <CommunityLeftSide
             submitRequest={submitRequest}
             postPageRequest={postPageRequest}
-            width="900px"
             community={community}
             user={user}
           ></CommunityLeftSide>

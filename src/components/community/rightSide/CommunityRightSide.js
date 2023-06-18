@@ -5,7 +5,7 @@ import AboutCommunity from './AboutCommunity';
 
 export default function CommunityRightSide({width, community, communityData}) {
   return (
-    <Flex width={width}>
+    <Flex width={width} hideBelow="md">
       <AboutCommunity border='solid red 1px' width={width} community={community} communityData={communityData}></AboutCommunity>
     </Flex>
   )

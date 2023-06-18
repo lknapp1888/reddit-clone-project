@@ -28,27 +28,27 @@ export default function CommunityHeader({ community, userMember, setUserMember, 
   }
   return (
     <Flex
-      bg="red.400"
+      bg="brand.100"
       padding="6px 12px"
-      height="120px"
+      height="min-content"
       width="100%"
-      justifyContent="start"
+      justifyContent="wrap"
       gap="3"
     >
+      <Flex gap='2' align='center' flexWrap='wrap'>
       <CircleIcon boxSize={75} color="white"></CircleIcon>
-      <Flex direction="column">
         <Link to={`/c/${community}`}>
-          <Heading>{community}</Heading>
+          <Heading fontSize={{ base: '24px', md: '40px' }}>{community}</Heading>
           <Text>c/{community}</Text>
         </Link>
-      </Flex>
-      {userMember === "loading" ? (
+        {userMember === "loading" ? (
         <Spinner></Spinner>
       ) : !userMember ? (
-        <Button onClick={communityMembershipToggle}>Join</Button>
+        <Button width='min-content' onClick={communityMembershipToggle}>Join</Button>
       ) : (
-        <Button onClick={communityMembershipToggle}>Leave community</Button>
+        <Button width='min-content' onClick={communityMembershipToggle}>Leave community</Button>
       )}
+      </Flex>
     </Flex>
   );
 }

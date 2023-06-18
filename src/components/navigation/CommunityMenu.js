@@ -52,8 +52,8 @@ export default function CommunityMenu() {
 
   if (user) {
     return (
-      <Flex align="center" gap='2'>
-        <Link to='/'>
+      <Flex align="center" gap="2">
+        <Link to="/">
           <Icon
             as={AiFillHome}
             boxSize={8}
@@ -73,7 +73,7 @@ export default function CommunityMenu() {
               align="center"
               gap={2}
               cursor="pointer"
-              _hover={{ color: "brand.100" }}
+              _hover={{ color: "brand.100", fontWeight: "bold" }}
               onClick={openCreateCommModal}
             >
               <AddIcon></AddIcon>
@@ -85,7 +85,9 @@ export default function CommunityMenu() {
             <Flex flexDirection="column">
               {userModeratedCommunities.map((comm) => (
                 <Link to={`/c/${comm.communityId}`}>
-                  <Text>{comm.communityId}</Text>
+                  <Text _hover={{ color: "brand.100"}}>
+                    {comm.communityId}
+                  </Text>
                 </Link>
               ))}
             </Flex>
@@ -95,7 +97,7 @@ export default function CommunityMenu() {
             <Flex flexDirection="column">
               {userCommunities.map((comm) => (
                 <Link to={`/c/${comm.communityId}`}>
-                  <Text>{comm.communityId}</Text>
+                  <Text _hover={{ color: "brand.100"}}>{comm.communityId}</Text>
                 </Link>
               ))}
             </Flex>
@@ -103,18 +105,17 @@ export default function CommunityMenu() {
         </Menu>
       </Flex>
     );
-  }
-  else {
+  } else {
     return (
-    <Flex align='center' justify='center' marginRight='2' marginTop='1'>
-      <Link to='/'>
-      <Icon
-        as={AiFillHome}
-        boxSize={8}
-        _hover={{ color: "brand.100" }}
-      ></Icon>
+      <Flex align="center" justify="center" marginRight="2" marginTop="1">
+        <Link to="/">
+          <Icon
+            as={AiFillHome}
+            boxSize={8}
+            _hover={{ color: "brand.100" }}
+          ></Icon>
         </Link>
-    </Flex>
-  );
-    }
+      </Flex>
+    );
+  }
 }
