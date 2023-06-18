@@ -62,7 +62,7 @@ export default function PagePostItem({ user, community, postId, postData, commen
   };
 
   return (
-    <Flex direction="column" width="75%" margin="6" gap="5">
+    <Flex direction="column" margin="6" gap="5">
       <Flex direction="column" gap="5">
         <Flex gap="1" direction="column">
           <Heading>{postData.title}</Heading>
@@ -95,7 +95,7 @@ export default function PagePostItem({ user, community, postId, postData, commen
               setText(e.target.value);
             }}
           ></Textarea>
-          <Flex justify="space-between">
+          <Flex justify="space-between" margin={1}>
             <Text>{20000 - text.length} characters remaining</Text>
             <Button width="min-content" onClick={submitComment}>
               Submit Comment

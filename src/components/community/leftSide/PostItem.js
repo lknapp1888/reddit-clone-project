@@ -93,7 +93,7 @@ export default function PostItem({postData, user, deletePost}) {
               <Text>{postData.commentNumber} comments</Text>
             </Flex>
           </Link>
-          { user ? ((user.uid === postData.authorId) ? <Button onClick={handleDeleteRequest}>Delete</Button> : <></>) : <></>}
+          { user ? ((user.uid === postData.authorId) ? <Button variant='deleteBtn' onClick={handleDeleteRequest}>Delete</Button> : <></>) : <></>}
         </Flex>
       </Flex>
     </Flex>

@@ -4,16 +4,28 @@ export const Button = defineStyleConfig({
   // The styles all button have in common
   baseStyle: {
     fontWeight: 'bold',
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     borderRadius: 'base',
     backgroundColor: 'white',
   },
   variants: {
     outline: {
-      border: '2px solid',
+      border: '1px solid',
       borderColor: 'brand.100',
       color: 'brand.100',
     },
+    deleteBtn: {
+      border: '1px solid',
+      borderColor: 'red.600',
+      color: 'red.600',
+      fontSize: 'sm',
+      _hover: {
+        border: '1px solid',
+        borderColor: 'red.600',
+        color: 'white',
+        backgroundColor: 'red.600'
+      }
+    }
   },
   // The default size and variant values
   defaultProps: {

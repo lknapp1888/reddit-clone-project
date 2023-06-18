@@ -27,19 +27,19 @@ export default function CommentItem({ commentData, user, deleteComment }) {
             : formatDistanceToNowStrict(commentData.postTime)}{" "}
           ago
         </Text>
-      </Flex>
-      <Text marginLeft="10" marginBottom="4">
-        {commentData.text}
-      </Text>
-      {user ? (
+        {user ? (
         user.uid === commentData.authorId ? (
-          <Button onClick={handleDeleteRequest}>Delete</Button>
+          <Button width='min-content' padding='1' variant="deleteBtn" onClick={handleDeleteRequest}>Delete</Button>
         ) : (
           <></>
         )
       ) : (
         <></>
       )}
+      </Flex>
+      <Text marginLeft="10" marginBottom="4">
+        {commentData.text}
+      </Text>
       <Divider width="80%" />
     </Flex>
   );
