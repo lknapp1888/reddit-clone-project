@@ -11,7 +11,9 @@ import {
   where,
   orderBy,
   getDocs,
-  deleteDoc
+  deleteDoc,
+  updateDoc,
+  increment
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
@@ -67,6 +69,10 @@ export default function PostPage({ community, user }) {
       await deleteDoc(doc(db, 'comments', commentId))
       let commentsCopy = comments;
       setComments(commentsCopy.filter(comm => comm.id !== commentId))
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
+        commentNumber: increment(-1),
+      });
     } catch (error) {
       console.log(error)
     }
