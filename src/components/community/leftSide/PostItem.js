@@ -75,7 +75,9 @@ export default function PostItem({postData, user, deletePost}) {
       <Flex bg='white' flex='auto' direction='column' cursor='pointer'>
         <Flex gap='3' align='center'>
           <CircleIcon boxSize={10} color="brand.100"></CircleIcon>
-          <Text fontSize='2xl'>c/{postData.communityId}</Text>
+          <Link to={`/c/${postData.communityId}`}>
+            <Text fontSize='2xl'>c/{postData.communityId}</Text>
+          </Link>
           <Text>Posted by u/{postData.authorDisplayName} {formatDistanceToNowStrict(postData.postTime.toDate())} ago</Text>
         </Flex>
         <Flex marginLeft='3' marginTop='1'>

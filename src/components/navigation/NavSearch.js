@@ -10,7 +10,7 @@ export default function NavSearch() {
             pointerEvents="none"
             children={<SearchIcon color="gray.300" />}
           />
-          <Input type="text" placeholder="Search" height="34px"/>
+          <Input type="text" placeholder="Search (not functional)" height="34px"/>
         </InputGroup>
     </Flex>
   );
