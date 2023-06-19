@@ -3,18 +3,18 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { theme } from "../chakra/theme";
 import Nav from "../components/navigation/Nav";
 import Main from "../components/Main";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from 'react-router-dom'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ChakraProvider theme={theme}>
         <div className="App">
           <Nav></Nav>
           <Main></Main>
         </div>
       </ChakraProvider>
-    </BrowserRouter>
+      </HashRouter>
   );
 }
 
