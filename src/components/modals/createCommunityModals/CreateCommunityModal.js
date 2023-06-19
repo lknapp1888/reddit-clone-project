@@ -3,7 +3,14 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { hideCommModal } from "../../../features/modals/createCommModalToggleSlice";
 import { db, auth } from "../../../config/firebase";
-import { setDoc, collection, doc, getDoc, serverTimestamp, runTransaction } from "firebase/firestore"; 
+import {
+  setDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  runTransaction,
+} from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import {
@@ -27,14 +34,16 @@ import {
   Tooltip,
   Box,
 } from "@chakra-ui/react";
-
 import { InfoOutlineIcon } from "@chakra-ui/icons";
+
+import { Link } from "react-router-dom";
 
 export default function CreateCommunityModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [community, setCommunity] = useState("");
   const [communityType, setCommunityType] = useState("public");
+  const [communityCreated, setCommunityCreated] = useState(false)
   const [error, setError] = useState("");
   const [user] = useAuthState(auth);
 
@@ -49,23 +58,21 @@ export default function CreateCommunityModal() {
       setError(
         `The community name cannot contain any special characters, with the exception of the underscore ('_')`
       );
-      return
+      return;
     }
-    if (community.length < 4 ) {
-      setError(
-        `The community name must be between 3 and 21 characters`
-      );
-      return
+    if (community.length < 4) {
+      setError(`The community name must be between 3 and 21 characters`);
+      return;
     }
-    setError('')
+    setError("");
 
     const docRef = doc(db, "communities", community);
 
     await runTransaction(db, async (transaction) => {
       const docSnap = await transaction.get(docRef);
       if (docSnap.exists()) {
-        setError(`'${community}' already exists. Please try a different name`)
-        return
+        setError(`'${community}' already exists. Please try a different name`);
+        return;
       } else {
         try {
           //community creation
@@ -83,17 +90,14 @@ export default function CreateCommunityModal() {
               communityId: community,
               isModerator: true,
             }
-          )
+          );
+          setCommunityCreated(true)
 
-          setCommunity('')
         } catch (e) {
           setError(`"Error adding document: ", ${e}`);
         }
       }
-    })
-
-    
-
+    });
   };
 
   useEffect(() => {
@@ -104,6 +108,8 @@ export default function CreateCommunityModal() {
     }
   });
 
+  
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -112,54 +118,69 @@ export default function CreateCommunityModal() {
           <ModalHeader>Create a new community</ModalHeader>
           <ModalCloseButton
             onClick={() => {
-              dispatch(hideCommModal());
+              dispatch(hideCommModal())
+              setCommunityCreated(false);
+              setCommunity('')
             }}
           />
           <ModalBody>
             <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-              <Stack align={"center"} spacing={4} align="stretch">
-                <FormControl id="communityInput">
-                  <FormLabel>
-                    <Flex align="center" gap={2}>
-                      <Text fontSize="1.5rem">Name</Text>
-                      <Tooltip
-                        label="Names must not contain spaces, must be between 3-21
+              {communityCreated ? (
+                <Stack align={"center"} spacing={4} align="stretch">
+                  <Text>c/{community} created!</Text>
+                  <Link to={`c/${community}`}>
+                    <Button onClick={() => {
+                      dispatch(hideCommModal())
+                      setCommunityCreated(false);
+                      setCommunity('')
+                    }}>go to c/{community}</Button>
+                  </Link>
+                </Stack>
+              ) : (
+                <Stack align={"center"} spacing={4} align="stretch">
+                  <FormControl id="communityInput">
+                    <FormLabel>
+                      <Flex align="center" gap={2}>
+                        <Text fontSize="1.5rem">Name</Text>
+                        <Tooltip
+                          label="Names must not contain spaces, must be between 3-21
                         letters. Underscore ('_') is the only special character
                         allowed."
-                      >
-                        <InfoOutlineIcon boxSize={5}></InfoOutlineIcon>
-                      </Tooltip>
-                    </Flex>
-                  </FormLabel>
-                  <Input
-                    type="text"
-                    bg="white"
-                    minLength={3}
-                    maxLength={21}
-                    onChange={(e) => setCommunity(e.target.value)}
-                    value={community}
-                  />
-                  <Text>{21 - community.length} characters remaining</Text>
-                  <Text color='red'>{error}</Text>
-                </FormControl>
-
-                <RadioGroup onChange={setCommunityType} value={communityType}>
-                  <Stack direction="column">
-                    <Text fontSize="1.5rem">Community Type</Text>
-                    <Radio
-                      colorScheme="red"
-                      value="public"
-                      defaultChecked
+                        >
+                          <InfoOutlineIcon boxSize={5}></InfoOutlineIcon>
+                        </Tooltip>
+                      </Flex>
+                    </FormLabel>
+                    <Input
+                      type="text"
                       bg="white"
-                    >
-                      Public
-                    </Radio>
-                    <Radio colorScheme="red" value="private" bg="white">
-                      Private
-                    </Radio>
-                  </Stack>
-                </RadioGroup>
-              </Stack>
+                      minLength={3}
+                      maxLength={21}
+                      onChange={(e) => setCommunity(e.target.value)}
+                      value={community}
+                    />
+                    <Text>{21 - community.length} characters remaining</Text>
+                    <Text color="red">{error}</Text>
+                  </FormControl>
+
+                  <RadioGroup onChange={setCommunityType} value={communityType}>
+                    <Stack direction="column">
+                      <Text fontSize="1.5rem">Community Type</Text>
+                      <Radio
+                        colorScheme="red"
+                        value="public"
+                        defaultChecked
+                        bg="white"
+                      >
+                        Public
+                      </Radio>
+                      <Radio colorScheme="red" value="private" bg="white">
+                        Private
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                </Stack>
+              )}
             </Stack>
           </ModalBody>
           <ModalFooter>
