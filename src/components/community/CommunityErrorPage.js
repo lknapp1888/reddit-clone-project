@@ -1,5 +1,6 @@
 import { Flex, Text, Button } from '@chakra-ui/react'
-import React from 'react'
+import React from 'react';
+import { Link } from "react-router-dom";
 
 export default function CommunityErrorPage() {
   return (
@@ -7,7 +8,7 @@ export default function CommunityErrorPage() {
         <Flex direction='column' align='center' gap='4' padding='8'>
             <Text fontSize='3xl' align='center'>There are no communities with that name</Text>
             <Text align='center'>The community may have been removed or the community name is incorrect</Text>
-            <Button width='70%'>Home (not active)</Button>
+            <Link to={'/'}><Button width='70%' padding={5}>Home</Button></Link>
         </Flex>
     </Flex>
   )
