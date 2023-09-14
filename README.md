@@ -1,6 +1,7 @@
 live preview of the site is available [here](https://reddit-clone-project-d8e3a.web.app/#/)
 
-![[reddit-clone.png]]
+[homepage image](./src/img/homepage.png)
+
 ## Project aims
 
 The aim of this project was to build a fairly large scale full stack application that would both develop my competencies in important areas while also displaying my ability to create a web application that includes user authorisation, CRUD functionality, persistent back end data storage/structuring and various other competencies as required.
