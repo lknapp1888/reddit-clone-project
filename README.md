@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+live preview of the site is available [here](https://reddit-clone-project-d8e3a.web.app/#/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![[reddit-clone.png]]
+## Project aims
 
-## Available Scripts
+The aim of this project was to build a fairly large scale full stack application that would both develop my competencies in important areas while also displaying my ability to create a web application that includes user authorisation, CRUD functionality, persistent back end data storage/structuring and various other competencies as required.
 
-In the project directory, you can run:
+I chose loosely replicate a 'lite' version of reddit as this posed some additional challenges beyond, for instance, a blog application, such as:
 
-### `npm start`
+- Posts with nested comments
+- User community (sub-reddit) creation
+- An upvote/downvote system.
+- Various filtering/sorting features - e.g. all communities, subscribed communities, sorted by vote/post date
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Technologies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React
+- Firebase
+- Chakra UI
+- redux
 
-### `npm test`
+## Challenges/improvements
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The project was certainly challenging due to it's scale and some of the new concepts, but this did mean it was a valuable learning process. Some challenges and potential improvements were/are:
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Actually deciding on a broad file structure, dependencies and application component structure - the latter could be improved with better component re-usability.
+- Deciding on how best to structure the data (users, posts, comments and communities).
+- Improvement - permanently storing upvote/downvote data on server (currently only client side and does not persist)
+- Improvement - more testing.
