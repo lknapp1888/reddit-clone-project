@@ -13,7 +13,7 @@ I chose loosely replicate a 'lite' version of reddit as this posed some addition
 - An upvote/downvote system.
 - Various filtering/sorting features - e.g. all communities, subscribed communities, sorted by vote/post date
 
-## Technologies
+## Technologies used
 
 - React
 - Firebase
@@ -31,7 +31,7 @@ I chose loosely replicate a 'lite' version of reddit as this posed some addition
 - Evident ability with firebase, particularly usage of authentication, database, hosting and security rules.
 - Proven problem solving abilities considering the many challenges that arise with a larger scale web-application, particularly with areas or concepts that I had not encountered before.
 
-## Challenges/improvements
+## Challenges/potential improvements
 
 The project was certainly challenging due to it's scale and some of the new concepts, but this did mean it was a valuable learning process. Some challenges and potential improvements were/are:
 
